@@ -95,18 +95,27 @@ jobs:
         run: go install github.com/packwiz/packwiz@latest
       - name: Fetch packwiz-installer-bootstrap
         run: curl -fsSL -o packwiz-installer-bootstrap.jar "$BOOTSTRAP_URL"
-      - name: Serve the checked-out pack locally
-        working-directory: pack
+      - name: Build server pack
         run: |
-          nohup packwiz serve --port 18080 > ../packwiz-serve.log 2>&1 &
+          (cd pack && nohup packwiz serve --port 18080 > ../packwiz-serve.log 2>&1 &)
+          SERVER_PID=$(pgrep -f "packwiz serve" || true)
+          echo "packwiz serve started (pid $SERVER_PID)"
+          READY=0
           for i in $(seq 1 30); do
-            curl -fsS http://localhost:18080/pack.toml >/dev/null && exit 0
+            if curl -fsS http://localhost:18080/pack.toml >/dev/null 2>&1; then
+              echo "packwiz serve ready on port 18080"
+              READY=1
+              break
+            fi
             sleep 1
           done
-          cat ../packwiz-serve.log
-          exit 1
-      - name: Build server zip
-        run: python scripts/build_server.py --pack-url http://localhost:18080/pack.toml --bootstrap packwiz-installer-bootstrap.jar
+          if [ "$READY" -ne 1 ]; then
+            echo "::error::packwiz serve failed to start"
+            cat packwiz-serve.log || true
+            exit 1
+          fi
+          python scripts/build_server.py --pack-url http://localhost:18080/pack.toml --bootstrap packwiz-installer-bootstrap.jar
+          pkill -f "packwiz serve" || true
       - uses: actions/upload-artifact@v4
         with:
           name: server
@@ -156,7 +165,7 @@ jobs:
           TAG="v${VERSION}-build.${GITHUB_RUN_NUMBER}"
           gh release create "$TAG" dist/Kreatopolis-client.zip dist/Kreatopolis-server.zip dist/MODLIST.md dist/SHA256SUMS.txt \
             --target "$GITHUB_SHA" --title "Kreatopolis $VERSION (build ${GITHUB_RUN_NUMBER})" \
-            --notes-file dist/MODLIST.md --latest=true
+            --notes-file dist/MODLIST.md --latest=false
       - name: Summary
         run: |
           BASE="https://github.com/${GITHUB_REPOSITORY}/releases/download/latest"
