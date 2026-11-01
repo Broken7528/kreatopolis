@@ -1,0 +1,33 @@
+# Single source of truth for who may join and what permissions they have.
+# `scripts/gen_players.py` turns this into whitelist.json and ops.json at build time.
+#
+#   whitelist: true      -> added to whitelist.json
+#   op_level:  1-4       -> added to ops.json at that level (omit for no op)
+#
+# op levels: 1 = bypass spawn protection, 2 = commands like /gamemode, /tp,
+#            3 = player management (/ban, /op), 4 = full admin (/stop, /save-all)
+players:
+  - name: clarity200
+    uuid: 8045742e-3d79-4143-b2eb-f9617ee363f3
+    whitelist: true
+    op_level: 4
+  - name: iconoclasmic
+    uuid: 7a97e331-4f09-44a3-9e43-a2fd480e5771
+    whitelist: true
+    op_level: 4
+  - name: coronabeth
+    uuid: 434950c6-be59-4f52-9688-ff82cafa86c3
+    whitelist: true
+    op_level: 2
+  - name: TallHercules60
+    uuid: a8670e8c-0d8c-4945-af0a-23009af7e2e3
+    whitelist: true
+    op_level: 2
+  - name: LilsyG
+    uuid: 3b5ec7fc-4314-49c2-b9d1-00646a18ebc9
+    whitelist: true
+    op_level: 2
+  - name: pcndas
+    uuid: a4f3b538-7bb4-4cde-a6c8-3d1e898a176b
+    whitelist: true
+    op_level: 2

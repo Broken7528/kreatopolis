@@ -1,0 +1,14 @@
+# build output
+dist/
+build/
+__pycache__/
+*.pyc
+
+# downloaded tooling
+packwiz-installer-bootstrap.jar
+packwiz-serve.log
+
+# never commit server runtime state or secrets
+*.env
+.env
+packwiz-installer.jar

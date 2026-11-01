@@ -1,0 +1,169 @@
+name: Build modpacks
+
+# Builds the client (PolyMC instance) and server packs whenever the mod list, configs or build
+# scripts change on main. Pull requests run the same build as a dry run without publishing.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pack/**"
+      - "server/**"
+      - "client/**"
+      - "scripts/**"
+      - ".github/workflows/build.yml"
+  pull_request:
+    paths:
+      - "pack/**"
+      - "server/**"
+      - "client/**"
+      - "scripts/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  # Stable, public URL packwiz-installer syncs from on every game launch. Baked into the client zip.
+  PACK_URL: https://raw.githubusercontent.com/${{ github.repository }}/main/pack/pack.toml
+  BOOTSTRAP_URL: https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar
+
+jobs:
+  verify:
+    name: Verify pack index
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: false
+      - name: Install packwiz
+        run: go install github.com/packwiz/packwiz@latest
+      - name: Index must be up to date
+        working-directory: pack
+        run: |
+          packwiz refresh
+          if ! git diff --exit-code --stat -- .; then
+            echo "::error::pack/index.toml is stale. Run 'packwiz refresh' in pack/ and commit the result."
+            exit 1
+          fi
+
+  client:
+    name: Build client (PolyMC instance)
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r scripts/requirements.txt
+      - name: Fetch packwiz-installer-bootstrap
+        run: curl -fsSL -o packwiz-installer-bootstrap.jar "$BOOTSTRAP_URL"
+      - name: Build instance zip
+        run: python scripts/build_client.py --pack-url "$PACK_URL" --bootstrap packwiz-installer-bootstrap.jar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: client
+          path: dist/Kreatopolis-client.zip
+          if-no-files-found: error
+
+  server:
+    name: Build server pack
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r scripts/requirements.txt
+      - name: Install packwiz
+        run: go install github.com/packwiz/packwiz@latest
+      - name: Fetch packwiz-installer-bootstrap
+        run: curl -fsSL -o packwiz-installer-bootstrap.jar "$BOOTSTRAP_URL"
+      - name: Serve the checked-out pack locally
+        working-directory: pack
+        run: |
+          nohup packwiz serve --port 18080 > ../packwiz-serve.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -fsS http://localhost:18080/pack.toml >/dev/null && exit 0
+            sleep 1
+          done
+          cat ../packwiz-serve.log
+          exit 1
+      - name: Build server zip
+        run: python scripts/build_server.py --pack-url http://localhost:18080/pack.toml --bootstrap packwiz-installer-bootstrap.jar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: server
+          path: dist/Kreatopolis-server.zip
+          if-no-files-found: error
+
+  publish:
+    name: Publish release assets
+    if: github.event_name != 'pull_request'
+    needs: [client, server]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Mod list + checksums
+        run: |
+          python scripts/modlist.py -o dist/MODLIST.md
+          (cd dist && sha256sum Kreatopolis-client.zip Kreatopolis-server.zip > SHA256SUMS.txt)
+          ls -l dist
+      - name: Update rolling "latest" release (stable download URLs)
+        run: |
+          set -euo pipefail
+          TAG=latest
+          FILES=(dist/Kreatopolis-client.zip dist/Kreatopolis-server.zip dist/MODLIST.md dist/SHA256SUMS.txt)
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --target "$GITHUB_SHA" --title "Kreatopolis (latest)" \
+              --notes-file dist/MODLIST.md --latest=false
+          fi
+          gh release upload "$TAG" "${FILES[@]}" --clobber
+          gh release edit "$TAG" --title "Kreatopolis (latest)" --notes-file dist/MODLIST.md --latest=false
+          # keep the tag pointing at the commit these assets were built from
+          gh api -X PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/$TAG" -f sha="$GITHUB_SHA" -F force=true
+      - name: Archive an immutable versioned release
+        run: |
+          set -euo pipefail
+          VERSION=$(python -c "import tomllib;print(tomllib.load(open('pack/pack.toml','rb'))['version'])")
+          TAG="v${VERSION}-build.${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" dist/Kreatopolis-client.zip dist/Kreatopolis-server.zip dist/MODLIST.md dist/SHA256SUMS.txt \
+            --target "$GITHUB_SHA" --title "Kreatopolis $VERSION (build ${GITHUB_RUN_NUMBER})" \
+            --notes-file dist/MODLIST.md --latest=true
+      - name: Summary
+        run: |
+          BASE="https://github.com/${GITHUB_REPOSITORY}/releases/download/latest"
+          {
+            echo "## Stable links"
+            echo ""
+            echo "- **PolyMC instance (paste into *Add Instance -> Import from URL*):** ${BASE}/Kreatopolis-client.zip"
+            echo "- **Server pack:** ${BASE}/Kreatopolis-server.zip"
+            echo "- Pack sync URL baked into the client: ${PACK_URL}"
+          } >> "$GITHUB_STEP_SUMMARY"

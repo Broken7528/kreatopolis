@@ -1,0 +1,27 @@
+# Client (PolyMC instance) settings. Versions of Minecraft / NeoForge come from pack/pack.toml,
+# so there is exactly one place to bump them.
+instance:
+  name: Kreatopolis
+  icon: default
+
+memory:            # MB
+  min: 2048
+  max: 6144
+
+# Extra JVM flags for the game (leave empty for launcher defaults).
+java_args: ""
+
+# PolyMC component UID used for NeoForge.
+#   PolyMC        -> net.neoforged.neoforge
+#   Prism Launcher -> net.neoforged
+neoforge_uid: net.neoforged.neoforge
+
+# Servers pre-populated in the multiplayer menu (written to .minecraft/servers.dat).
+servers: []
+#  - name: Kreatopolis
+#    ip: kreatopolis.example.com
+
+# Any additional raw key=value lines for instance.cfg (e.g. WrapperCommand, PostExitCommand,
+# AutoCloseConsole, MaxMemAlloc, ...). Keys here win over the generated ones.
+extra_instance_cfg: {}
+#  PostExitCommand: ""
