@@ -34,11 +34,36 @@ env:
   INSTALLER_URL: https://github.com/packwiz/packwiz-installer/releases/latest/download/packwiz-installer.jar
 
 jobs:
+  version:
+    name: Resolve version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+      tag: ${{ steps.ver.outputs.tag }}
+      bumped: ${{ steps.ver.outputs.bumped }}
+      reason: ${{ steps.ver.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: ver
+        run: |
+          python scripts/version.py --before "${{ github.event.before }}" --github-output
+
   verify:
     name: Verify pack index
+    needs: version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Apply resolved version
+        run: python scripts/version.py --set "${{ needs.version.outputs.version }}"
       - uses: actions/setup-go@v5
         with:
           go-version: stable
@@ -49,20 +74,22 @@ jobs:
         working-directory: pack
         run: |
           packwiz refresh
-          if ! git diff --exit-code --stat -- .; then
+          if ! git diff --exit-code --stat -- index.toml; then
             echo "::error::pack/index.toml is stale. Run 'packwiz refresh' in pack/ and commit the result."
             exit 1
           fi
 
   client:
     name: Build client (PolyMC instance)
-    needs: verify
+    needs: [version, verify]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Apply resolved version
+        run: python scripts/version.py --set "${{ needs.version.outputs.version }}"
       - run: pip install -r scripts/requirements.txt
       - name: Fetch packwiz-installer-bootstrap
         run: curl -fsSL -o packwiz-installer-bootstrap.jar "$BOOTSTRAP_URL"
@@ -76,7 +103,7 @@ jobs:
 
   server:
     name: Build server pack
-    needs: verify
+    needs: [version, verify]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -91,6 +118,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Apply resolved version
+        run: python scripts/version.py --set "${{ needs.version.outputs.version }}"
       - run: pip install -r scripts/requirements.txt
       - name: Install packwiz
         run: go install github.com/packwiz/packwiz@latest
@@ -130,7 +159,7 @@ jobs:
   publish:
     name: Publish release assets
     if: github.event_name != 'pull_request'
-    needs: [client, server]
+    needs: [version, client, server]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -138,9 +167,13 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Apply resolved version
+        run: python scripts/version.py --set "${{ needs.version.outputs.version }}"
       - uses: actions/download-artifact@v4
         with:
           path: dist
@@ -166,18 +199,24 @@ jobs:
       - name: Archive an immutable versioned release
         run: |
           set -euo pipefail
-          VERSION=$(python -c "import tomllib;print(tomllib.load(open('pack/pack.toml','rb'))['version'])")
+          VERSION="${{ needs.version.outputs.version }}"
           TAG="v${VERSION}-build.${GITHUB_RUN_NUMBER}"
           gh release create "$TAG" dist/Kreatopolis-client.zip dist/Kreatopolis-server.zip dist/MODLIST.md dist/SHA256SUMS.txt \
             --target "$GITHUB_SHA" --title "Kreatopolis $VERSION (build ${GITHUB_RUN_NUMBER})" \
             --notes-file dist/MODLIST.md --latest=false
+          if ! gh release view "v${VERSION}" >/dev/null 2>&1; then
+            gh release create "v${VERSION}" dist/Kreatopolis-client.zip dist/Kreatopolis-server.zip dist/MODLIST.md dist/SHA256SUMS.txt \
+              --target "$GITHUB_SHA" --title "Kreatopolis $VERSION" \
+              --notes-file dist/MODLIST.md --latest=false || true
+          fi
       - name: Summary
         run: |
           BASE="https://github.com/${GITHUB_REPOSITORY}/releases/download/latest"
           {
-            echo "## Stable links"
+            echo "## Release: Kreatopolis ${{ needs.version.outputs.version }} (build ${{ github.run_number }})"
             echo ""
-            echo "- **PolyMC instance (paste into *Add Instance -> Import from URL*):** ${BASE}/Kreatopolis-client.zip"
+            echo "- **Version Bump Reason:** ${{ needs.version.outputs.reason }}"
+            echo "- **PolyMC instance:** ${BASE}/Kreatopolis-client.zip"
             echo "- **Server pack:** ${BASE}/Kreatopolis-server.zip"
             echo "- Pack sync URL baked into the client: ${PACK_URL}"
           } >> "$GITHUB_STEP_SUMMARY"
