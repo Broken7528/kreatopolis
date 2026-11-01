@@ -1,11 +1,12 @@
-"""Version management script for Kreatopolis modpack.
+"""Version management and change detection script for Kreatopolis modpack.
 
-Determines and manages modpack versioning across CI builds and releases.
-Rules:
-  - If new mods are added in pack/mods/ -> bump MINOR version (e.g. 1.0.0 -> 1.1.0)
-  - If mods/configs are modified or removed -> bump PATCH version (e.g. 1.1.0 -> 1.1.1)
-  - If pack/pack.toml was manually bumped to a higher version -> respect it
-  - If no pack/mod/config changes -> keep current version
+Determines modpack versioning across CI builds and releases.
+Change detection rules:
+  - If no modpack files (pack/**, client/**, server/**, build scripts) changed -> should_build = false
+  - If new mods are added in pack/mods/ -> bump MINOR version (e.g. 1.0.0 -> 1.1.0), should_build = true
+  - If mods/configs are modified or removed -> bump PATCH version (e.g. 1.1.0 -> 1.1.1), should_build = true
+  - If pack/pack.toml was manually bumped to a higher version -> respect it, should_build = true
+  - If manual workflow_dispatch -> should_build = true
 """
 from __future__ import annotations
 
@@ -18,6 +19,33 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PACK_TOML = ROOT / "pack" / "pack.toml"
+
+# Directories and files that directly affect the modpack builds
+MODPACK_BUILD_PREFIXES = (
+    "pack/",
+    "client/",
+    "server/",
+)
+
+MODPACK_BUILD_FILES = {
+    "scripts/build_client.py",
+    "scripts/build_server.py",
+    "scripts/common.py",
+    "scripts/gen_players.py",
+    "scripts/KreatopolisBootstrap.java",
+    "scripts/modlist.py",
+    "scripts/requirements.txt",
+}
+
+
+def is_modpack_file(path: str) -> bool:
+    """Return True if path affects modpack artifacts (client or server builds)."""
+    norm = path.replace("\\", "/").strip()
+    if any(norm.startswith(prefix) for prefix in MODPACK_BUILD_PREFIXES):
+        return True
+    if norm in MODPACK_BUILD_FILES:
+        return True
+    return False
 
 
 def parse_semver(v: str) -> tuple[int, int, int]:
@@ -76,7 +104,6 @@ def get_latest_release_info() -> tuple[str, str] | None:
     except Exception:
         pass
 
-    # Fallback to git tags
     try:
         out = subprocess.check_output(
             ["git", "tag", "-l", "v*"],
@@ -110,10 +137,12 @@ def commit_exists(sha: str) -> bool:
         return False
 
 
-def determine_version(before_sha: str | None = None) -> tuple[str, str, bool]:
+def determine_version_and_changes(
+    before_sha: str | None = None,
+    is_manual: bool = False,
+) -> tuple[str, str, bool, bool]:
     """
-    Determine the version:
-      Returns (resolved_version_string, reason, was_bumped)
+    Returns: (resolved_version, reason, was_bumped, should_build)
     """
     current_pack_ver = get_current_pack_version()
     current_pack_tuple = parse_semver(current_pack_ver)
@@ -133,10 +162,10 @@ def determine_version(before_sha: str | None = None) -> tuple[str, str, bool]:
 
     base_tuple = parse_semver(base_version)
 
-    # If we have a base reference, compute diff against HEAD
     new_mods = []
     changed_mods = []
     config_changes = []
+    all_modpack_changes = []
 
     if base_ref:
         try:
@@ -150,21 +179,36 @@ def determine_version(before_sha: str | None = None) -> tuple[str, str, bool]:
                 parts = line.split("\t")
                 if len(parts) >= 2:
                     status = parts[0].strip()
-                    path = parts[1].strip()
-                    if path.startswith("pack/mods/") and (path.endswith(".pw.toml") or path.endswith(".jar")):
-                        if "A" in status:
-                            new_mods.append(path)
-                        elif "M" in status or "D" in status or "R" in status:
-                            changed_mods.append(path)
-                    elif path.startswith(("config/", "server/", "client/client.yml")):
-                        config_changes.append(path)
+                    for p in parts[1:]:
+                        p_clean = p.strip()
+                        if is_modpack_file(p_clean):
+                            all_modpack_changes.append((status, p_clean))
+                            if p_clean.startswith("pack/mods/") and (p_clean.endswith(".pw.toml") or p_clean.endswith(".jar")):
+                                if "A" in status:
+                                    new_mods.append(p_clean)
+                                elif "M" in status or "D" in status or "R" in status:
+                                    changed_mods.append(p_clean)
+                            elif p_clean.startswith(("config/", "server/", "client/client.yml")):
+                                config_changes.append(p_clean)
         except Exception:
             pass
+
+    # Determine whether a build is required:
+    # 1. Manual trigger (workflow_dispatch) always builds.
+    # 2. If no base reference exists (e.g. initial repo push), build.
+    # 3. Otherwise, only build if files affecting modpacks were modified.
+    should_build = False
+    if is_manual:
+        should_build = True
+    elif not base_ref:
+        should_build = True
+    elif all_modpack_changes:
+        should_build = True
 
     # Version bump calculation:
     calculated_tuple = base_tuple
     bumped = False
-    reason = "no mod changes"
+    reason = "no modpack changes"
 
     if new_mods:
         calculated_tuple = (base_tuple[0], base_tuple[1] + 1, 0)
@@ -174,9 +218,12 @@ def determine_version(before_sha: str | None = None) -> tuple[str, str, bool]:
     elif changed_mods or config_changes:
         calculated_tuple = (base_tuple[0], base_tuple[1], base_tuple[2] + 1)
         bumped = True
-        reason = f"mod/config changes: {len(changed_mods) + len(config_changes)} files"
+        reason = f"mod/config changes ({len(changed_mods) + len(config_changes)} files)"
+    elif is_manual:
+        reason = "manual workflow dispatch"
+    elif not should_build:
+        reason = "no modpack or build files modified in this push"
 
-    # If pack/pack.toml in the working tree was already manually set higher, respect that
     final_tuple = max(current_pack_tuple, calculated_tuple)
     if final_tuple > base_tuple:
         bumped = True
@@ -185,7 +232,7 @@ def determine_version(before_sha: str | None = None) -> tuple[str, str, bool]:
         bumped = True
 
     final_version = format_semver(final_tuple)
-    return (final_version, reason, bumped)
+    return (final_version, reason, bumped, should_build)
 
 
 def update_pack_toml(new_version: str) -> bool:
@@ -205,8 +252,9 @@ def update_pack_toml(new_version: str) -> bool:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Kreatopolis version manager")
+    parser = argparse.ArgumentParser(description="Kreatopolis version manager and change detector")
     parser.add_argument("--before", help="Git commit SHA before the push (e.g. ${{ github.event.before }})")
+    parser.add_argument("--manual", action="store_true", help="Indicates workflow_dispatch manual run")
     parser.add_argument("--set", dest="set_version", help="Directly set version in pack/pack.toml")
     parser.add_argument("--apply", action="store_true", help="Update pack/pack.toml in-place with resolved version")
     parser.add_argument("--github-output", action="store_true", help="Write step outputs to $GITHUB_OUTPUT")
@@ -218,12 +266,14 @@ def main():
         print(v)
         return
 
-    version, reason, bumped = determine_version(args.before)
+    version, reason, bumped, should_build = determine_version_and_changes(
+        before_sha=args.before,
+        is_manual=args.manual,
+    )
 
-    if args.apply:
+    if args.apply and should_build:
         updated = update_pack_toml(version)
         if updated:
-            # If pack.toml was updated, try refreshing index if packwiz is available
             try:
                 subprocess.run(["packwiz", "refresh"], cwd=str(ROOT / "pack"), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             except Exception:
@@ -236,9 +286,10 @@ def main():
                 f.write(f"version={version}\n")
                 f.write(f"tag=v{version}\n")
                 f.write(f"bumped={str(bumped).lower()}\n")
+                f.write(f"should_build={str(should_build).lower()}\n")
                 f.write(f"reason={reason}\n")
 
-    print(version)
+    print(f"version={version} should_build={str(should_build).lower()} reason={reason}")
 
 
 if __name__ == "__main__":
