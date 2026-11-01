@@ -31,6 +31,7 @@ env:
   # Stable, public URL packwiz-installer syncs from on every game launch. Baked into the client zip.
   PACK_URL: https://raw.githubusercontent.com/${{ github.repository }}/main/pack/pack.toml
   BOOTSTRAP_URL: https://github.com/packwiz/packwiz-installer-bootstrap/releases/latest/download/packwiz-installer-bootstrap.jar
+  INSTALLER_URL: https://github.com/packwiz/packwiz-installer/releases/latest/download/packwiz-installer.jar
 
 jobs:
   verify:
@@ -93,9 +94,13 @@ jobs:
       - run: pip install -r scripts/requirements.txt
       - name: Install packwiz
         run: go install github.com/packwiz/packwiz@latest
-      - name: Fetch packwiz-installer-bootstrap
-        run: curl -fsSL -o packwiz-installer-bootstrap.jar "$BOOTSTRAP_URL"
+      - name: Fetch packwiz-installer and bootstrap
+        run: |
+          curl -fsSL -o packwiz-installer-bootstrap.jar "$BOOTSTRAP_URL"
+          curl -fsSL -o packwiz-installer.jar "$INSTALLER_URL"
       - name: Build server pack
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           (cd pack && nohup packwiz serve --port 18080 > ../packwiz-serve.log 2>&1 &)
           SERVER_PID=$(pgrep -f "packwiz serve" || true)

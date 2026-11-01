@@ -10,6 +10,7 @@ The result is a drop-in server directory: install NeoForge, accept the EULA, run
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 import zipfile
@@ -28,11 +29,24 @@ def build(pack_url: str, bootstrap: Path, out_dir: Path, work: Path) -> Path:
         shutil.rmtree(work)
     work.mkdir(parents=True)
 
-    subprocess.run(
-        ["java", "-jar", str(bootstrap.resolve()), "-g", "-s", "server",
-         "--pack-folder", str(work), pack_url],
-        check=True,
-    )
+    installer_jar = bootstrap.parent / "packwiz-installer.jar"
+    if not installer_jar.exists():
+        installer_jar = Path("packwiz-installer.jar")
+
+    cmd = ["java", "-jar", str(bootstrap.resolve())]
+    if installer_jar.exists():
+        cmd.extend(["--bootstrap-no-update", "--bootstrap-main-jar", str(installer_jar.resolve())])
+    else:
+        token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+        if token:
+            cmd.extend(["--bootstrap-update-token", token])
+
+    cmd.extend([
+        "-g", "-s", "server",
+        "--pack-folder", str(work), pack_url,
+    ])
+
+    subprocess.run(cmd, check=True)
     for name in JUNK:
         (work / name).unlink(missing_ok=True)
 
