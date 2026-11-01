@@ -1,6 +1,6 @@
 # Kreatopolis 1.0.0 mod list
 
-Minecraft **1.21.1** / NeoForge **21.1.262** - 45 mods (25 both sides, 3 client-only, 17 server-only)
+Minecraft **1.21.1** / NeoForge **21.1.262** - 44 mods (25 both sides, 3 client-only, 16 server-only)
 
 | Mod | Side | Source | File |
 | --- | --- | --- | --- |
@@ -41,7 +41,6 @@ Minecraft **1.21.1** / NeoForge **21.1.262** - 45 mods (25 both sides, 3 client-
 | Rhino | both | Modrinth | `rhino-2101.2.8-build.91.jar` |
 | Sable | both | Modrinth | `sable-neoforge-1.21.1-2.0.5.jar` |
 | Saturn | server | Modrinth | `saturn-mc1.21.1-0.1.5.jar` |
-| ScalableLux | server | Modrinth | `ScalableLux-neoforge-0.3.0-alpha.0.8-all.jar` |
 | ServerCore | server | Modrinth | `servercore-neoforge-1.5.19+1.21.1.jar` |
 | Small Ships | both | Modrinth | `smallships-neoforge-1.21.1-2.0.0-b2.1.jar` |
 | Sodium | client | Modrinth | `sodium-neoforge-0.8.13+mc1.21.1.jar` |
