@@ -1,6 +1,6 @@
 # Kreatopolis 1.0.0 mod list
 
-Minecraft **1.21.1** / NeoForge **21.1.262** - 44 mods (25 both sides, 3 client-only, 16 server-only)
+Minecraft **1.21.1** / NeoForge **21.1.265** - 44 mods (25 both sides, 3 client-only, 16 server-only)
 
 | Mod | Side | Source | File |
 | --- | --- | --- | --- |

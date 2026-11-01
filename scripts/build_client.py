@@ -60,16 +60,37 @@ def build(pack_url: str, bootstrap: Path, out_dir: Path) -> Path:
     mmc_pack = {
         "formatVersion": 1,
         "components": [
-            {"cachedName": "Minecraft", "cachedVersion": mc, "important": True,
-             "uid": "net.minecraft", "version": mc},
-            {"cachedName": "NeoForge", "cachedVersion": neo, "important": True,
-             "uid": neo_uid, "version": neo},
+            {
+                "cachedName": "LWJGL 3",
+                "cachedVersion": "3.3.3",
+                "cachedVolatile": True,
+                "dependencyOnly": True,
+                "uid": "org.lwjgl3",
+                "version": "3.3.3",
+            },
+            {
+                "cachedName": "Minecraft",
+                "cachedRequires": [{"suggests": "3.3.3", "uid": "org.lwjgl3"}],
+                "cachedVersion": mc,
+                "important": True,
+                "uid": "net.minecraft",
+                "version": mc,
+            },
+            {
+                "cachedName": "NeoForge",
+                "cachedRequires": [{"equals": mc, "uid": "net.minecraft"}],
+                "cachedVersion": neo,
+                "uid": neo_uid,
+                "version": neo,
+            },
         ],
     }
 
     # PolyMC runs the pre-launch command in the instance's .minecraft folder.
+    # Point --multimc-folder at $INST_MC_DIR so packwiz-installer does not rewrite ../mmc-pack.json
+    # with Prism Launcher's "net.neoforged" UID or reorder PolyMC's components.
     sync = (f'"$INST_JAVA" -jar "$INST_MC_DIR/packwiz-installer-bootstrap.jar" -g -s client '
-            f'--pack-folder "$INST_MC_DIR" {pack_url}')
+            f'--pack-folder "$INST_MC_DIR" --multimc-folder "$INST_MC_DIR" {pack_url}')
     mem = cfg["memory"]
     instance = {
         "InstanceType": "OneSix",
