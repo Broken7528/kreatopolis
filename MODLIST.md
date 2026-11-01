@@ -1,6 +1,6 @@
 # Kreatopolis 1.0.0 mod list
 
-Minecraft **1.21.1** / NeoForge **21.1.265** - 44 mods (25 both sides, 3 client-only, 16 server-only)
+Minecraft **1.21.1** / NeoForge **21.1.265** - 49 mods (30 both sides, 3 client-only, 16 server-only)
 
 | Mod | Side | Source | File |
 | --- | --- | --- | --- |
@@ -18,6 +18,7 @@ Minecraft **1.21.1** / NeoForge **21.1.265** - 44 mods (25 both sides, 3 client-
 | Cultural Delights | both | Modrinth | `culturaldelights-0.17.8.jar` |
 | Cupboard | both | CurseForge | `cupboard-1.21.1-4.1.jar` |
 | Customizable Elytra | both | Modrinth | `customizableelytra-neoforge-2.2.8+1.21.jar` |
+| Effortless Building | both | Modrinth | `effortlessbuilding-4.2+1.21.1.jar` |
 | Farmer's Delight | both | Modrinth | `FarmersDelight-1.21.1-1.3.4.jar` |
 | farmers_delight_christmas_edition-V1.0.2-neoforge-1.20.1 | both | Bundled | `farmers_delight_christmas_edition-V1.0.2-neoforge-1.20.1.jar` |
 | FerriteCore | server | Modrinth | `ferritecore-7.0.3-neoforge.jar` |
@@ -28,13 +29,17 @@ Minecraft **1.21.1** / NeoForge **21.1.265** - 44 mods (25 both sides, 3 client-
 | Immersive Aircraft | both | Modrinth | `immersive_aircraft-1.4.6+1.21.1-neoforge.jar` |
 | Immersive Paintings | both | Modrinth | `immersive_paintings-neoforge-1.21.1-0.7.8.jar` |
 | Iris Shaders | client | Modrinth | `iris-neoforge-1.8.14-beta.1+mc1.21.1.jar` |
+| Jade | both | Modrinth | `Jade-1.21.1-NeoForge-15.10.6.jar` |
+| JourneyMap | both | Modrinth | `journeymap-neoforge-1.21.1-6.0.9.jar` |
 | Kotlin for Forge | both | Modrinth | `kotlinforforge-5.12.0-all.jar` |
 | Krypton Reno | both | Modrinth | `krypton_fnp-neoforge-1.21.1-0.2.28.1-1.21.1.jar` |
 | Ksyxis | server | Modrinth | `Ksyxis-1.4.6.jar` |
 | Lithium | server | Modrinth | `lithium-neoforge-0.15.4+mc1.21.1.jar` |
+| MapFrontiers | both | Modrinth | `MapFrontiers-1.21.1-neoforge-3.0.0-beta.13.jar` |
 | ModernFix | server | Modrinth | `modernfix-neoforge-5.27.27+mc1.21.1.jar` |
 | Moonlight Lib | both | Modrinth | `moonlight-1.21.1-3.6.3-neoforge.jar` |
 | MrCrayfish's Furniture Mod: Refurbished | both | CurseForge | `refurbished_furniture-neoforge-1.21.1-1.0.22.jar` |
+| Nature's Compass | both | Modrinth | `NaturesCompass-1.21.1-3.4.0-neoforge.jar` |
 | Noisium | server | Modrinth | `noisium-neoforge-2.3.0+mc1.21-1.21.1.jar` |
 | Ocean's Delight | both | Modrinth | `oceansdelight-neoforge-1.0.4-1.21.1.jar` |
 | Packet Fixer | server | Modrinth | `packetfixer-3.3.1-1.20.5-1.21.X-merged.jar` |
