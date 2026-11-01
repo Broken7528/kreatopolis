@@ -9,17 +9,54 @@ download link never has to change.
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import struct
+import subprocess
+import tempfile
 import urllib.request
 import zipfile
 from pathlib import Path
 
 import yaml
 
-from common import CLIENT_DIR, DIST_DIR, PACK_NAME, load_pack
+from common import CLIENT_DIR, DIST_DIR, PACK_NAME, ROOT, load_pack
 
 OUT_NAME = f"{PACK_NAME}-client.zip"
+WRAPPER_SRC = ROOT / "scripts" / "KreatopolisBootstrap.java"
+
+
+def build_wrapped_bootstrap(bootstrap_jar: Path) -> bytes:
+    """Compile KreatopolisBootstrap.java and inject it as Main-Class of packwiz-installer-bootstrap.jar."""
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        subprocess.run(
+            [
+                "javac",
+                "--release", "8",
+                "-cp", str(bootstrap_jar),
+                "-d", str(tmp_path),
+                str(WRAPPER_SRC),
+            ],
+            check=True,
+        )
+        buf = io.BytesIO()
+        with zipfile.ZipFile(bootstrap_jar, "r") as src_zip, \
+             zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as dst_zip:
+            for item in src_zip.infolist():
+                data = src_zip.read(item.filename)
+                if item.filename == "META-INF/MANIFEST.MF":
+                    manifest = data.decode("utf-8").replace(
+                        "Main-Class: link.infra.packwiz.installer.bootstrap.Main",
+                        "Main-Class: link.infra.packwiz.installer.bootstrap.KreatopolisBootstrap",
+                    )
+                    dst_zip.writestr(item, manifest.encode("utf-8"))
+                else:
+                    dst_zip.writestr(item, data)
+            for cls_file in sorted(tmp_path.rglob("*.class")):
+                rel = cls_file.relative_to(tmp_path).as_posix()
+                dst_zip.write(cls_file, rel)
+        return buf.getvalue()
 
 
 # --- minimal NBT writer for servers.dat (uncompressed, big-endian) -------------------------
@@ -109,6 +146,7 @@ def build(pack_url: str, bootstrap: Path, out_dir: Path) -> Path:
     instance_cfg = "[General]\n" + "".join(f"{k}={v}\n" for k, v in instance.items())
 
     patch_json = fetch_neoforge_patch(neo_uid, neo)
+    wrapped_bootstrap = build_wrapped_bootstrap(bootstrap)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / OUT_NAME
@@ -117,7 +155,7 @@ def build(pack_url: str, bootstrap: Path, out_dir: Path) -> Path:
         z.writestr("mmc-pack.json", json.dumps(mmc_pack, indent=2) + "\n")
         if patch_json:
             z.writestr(f"patches/{neo_uid}.json", patch_json)
-        z.write(bootstrap, ".minecraft/packwiz-installer-bootstrap.jar")
+        z.writestr(".minecraft/packwiz-installer-bootstrap.jar", wrapped_bootstrap)
         if cfg.get("servers"):
             z.writestr(".minecraft/servers.dat", servers_dat(cfg["servers"]))
         overrides = CLIENT_DIR / "overrides"
