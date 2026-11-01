@@ -85,6 +85,10 @@ file = "config/supplementaries-common.toml"
 hash = "bca6ea061796cae15c46da2c01e9d81828e1449199bbb380f24ce6caf69f4379"
 
 [[files]]
+file = "config/voicechat/voicechat-server.properties"
+hash = "5dbfe909bd524afa8bd93651df07723f45e05e3a3bb01d1481b2bf7ef97a86a8"
+
+[[files]]
 file = "config/worldedit/worldedit.properties"
 hash = "ee2aa2d7caaf88c2c1526b5fa83836ae058f5e9dcb84a7ea6871dc94e2f3d3e6"
 
@@ -299,6 +303,11 @@ metafile = true
 [[files]]
 file = "mods/servercore.pw.toml"
 hash = "33454564d216f62d011ac78fc0aa2a49977ac1161f10f4accb1d33a9934969df"
+metafile = true
+
+[[files]]
+file = "mods/simple-voice-chat.pw.toml"
+hash = "6f9502735fcac7a35468358e2aa0fd9333b12df885db3325c472d298ce315a72"
 metafile = true
 
 [[files]]
