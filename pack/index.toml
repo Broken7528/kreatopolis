@@ -158,6 +158,11 @@ hash = "fb495270ef1ca9dbbb53b84d4d7306cef03a6334402a9b85a3f72ae4477f7bd6"
 metafile = true
 
 [[files]]
+file = "mods/effortless-building.pw.toml"
+hash = "acca756841ee5e088eaec9474758e402247965f3adf6d7ccd612bb715aa836c9"
+metafile = true
+
+[[files]]
 file = "mods/farmers-delight.pw.toml"
 hash = "97347efd9e808841d72fe3599da8a11add8422e97f89ae1c85cdfc0acfa18f96"
 metafile = true
@@ -207,6 +212,16 @@ hash = "db1c1e6382878b78e994dba1b9026935f8d1c5ca685c89d2437858e0a0dcab58"
 metafile = true
 
 [[files]]
+file = "mods/jade.pw.toml"
+hash = "ec5edbfa0d746a80dfc864b53a6ce5ba6ce3c233a6f0d0aeedba5cd57099ffd3"
+metafile = true
+
+[[files]]
+file = "mods/journeymap.pw.toml"
+hash = "783ed30ab6f6f60c604b9bdc2f26ec5b23c7a523179aa17119dbc541f7149022"
+metafile = true
+
+[[files]]
 file = "mods/kotlin-for-forge.pw.toml"
 hash = "712a69b3569a8055979de6eea262068535fe182dffb3833e53e5833e9cbf9766"
 metafile = true
@@ -227,6 +242,11 @@ hash = "8fcf9b022a79aeabcd6b22dce076f9523f5d030e425a085902482201de3d2f0e"
 metafile = true
 
 [[files]]
+file = "mods/mapfrontiers.pw.toml"
+hash = "d51d9c17a1d4112b3ccf070217d68eb039a97efdde25277f074d653bf7edb3f1"
+metafile = true
+
+[[files]]
 file = "mods/modernfix.pw.toml"
 hash = "ff1ccb7623ec76d11a7423bf64fcc4381ffdec2c5c5bb1a8d408d1cb80b2e857"
 metafile = true
@@ -234,6 +254,11 @@ metafile = true
 [[files]]
 file = "mods/moonlight.pw.toml"
 hash = "582436f7e3a9676d638481f8f5ab5fb82f63a20804a93929d88ab01572706bb5"
+metafile = true
+
+[[files]]
+file = "mods/natures-compass.pw.toml"
+hash = "35acdf433fe8f8599f59975e848efdb717663c2c471d3a5dc18743799795a736"
 metafile = true
 
 [[files]]

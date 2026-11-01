@@ -1,0 +1,13 @@
+name = "MapFrontiers"
+filename = "MapFrontiers-1.21.1-neoforge-3.0.0-beta.13.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/hWlsli6y/versions/KTdHDcCF/MapFrontiers-1.21.1-neoforge-3.0.0-beta.13.jar"
+hash-format = "sha512"
+hash = "459fa4747516f57a69993cfce3d32444463d3deebb6245e059c8170d0e3e1ad58a3b96a121d203db1a9aaf1023cf9c72b74d9e0a9c4d9b291f1a6118acd5c8c2"
+
+[update]
+[update.modrinth]
+mod-id = "hWlsli6y"
+version = "KTdHDcCF"
