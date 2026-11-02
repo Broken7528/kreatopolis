@@ -1,13 +1,16 @@
 name = "Kreatopolis"
 author = "Kreatopolis"
-version = "1.3.1"
+version = "1.4.0"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "f58fdd05045c430df75ca2e7ec9f4190286f21b75e27e329ba54e9696bfd27de"
+hash = "49021166dadf0825a609a08a48c58be082d01855d3dc115ed4188397c42a317a"
 
 [versions]
 minecraft = "1.21.1"
 neoforge = "21.1.265"
+
+[options]
+acceptable-game-versions = []

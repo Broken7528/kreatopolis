@@ -69,6 +69,10 @@ file = "config/refurbished_furniture.server.toml"
 hash = "ef126e70c8f36fe16a7cea36e206e0ec0be0862dabf2a66eb4de79a1771e41b8"
 
 [[files]]
+file = "config/resourcepackoverrides.json"
+hash = "945e3df74df11b4787275bb22129b360e5518a025d75027a057c3529495c36f0"
+
+[[files]]
 file = "config/sable-common.toml"
 hash = "0614f722541191b6ddcfb686f97d5ea9a3280d32f8e0607c0d31dffe9a2dc5d7"
 
@@ -151,6 +155,11 @@ hash = "dcaf5f2e28db0b9a127d0167456832341045ddc9aec058c3d9fcf53f618d2404"
 metafile = true
 
 [[files]]
+file = "mods/ctm.pw.toml"
+hash = "0aaa8a4b14fdbe2ffd25e9e17a41ec58f6539934205b56ca4505b18bb31fc3a5"
+metafile = true
+
+[[files]]
 file = "mods/cultural-delights.pw.toml"
 hash = "7dc4daef7f7fbd4f89aa502f54ec24049a60c016e47d2b37776f3905623e3578"
 metafile = true
@@ -200,6 +209,11 @@ hash = "bd54b25ed6127a176979f89d56ebee73856ff5023c575232ee707571fcdb2c1c"
 metafile = true
 
 [[files]]
+file = "mods/fusion-connected-textures.pw.toml"
+hash = "108739f2fdaa6a885a3217ae692b2521ab10b8e71fa1222c67274ea0562649a5"
+metafile = true
+
+[[files]]
 file = "mods/fzzy-config.pw.toml"
 hash = "f9c118b7a66238a7f9e052705e82402e57c7a5b753d62d679b94701ede479752"
 metafile = true
@@ -238,6 +252,10 @@ metafile = true
 file = "mods/kotlin-for-forge.pw.toml"
 hash = "712a69b3569a8055979de6eea262068535fe182dffb3833e53e5833e9cbf9766"
 metafile = true
+
+[[files]]
+file = "mods/kreatopolis-voicechat-fix-1.0.0.jar"
+hash = "caea88fb827e2b585c152f88588a86b78bedd3dc5d70b0c7ec121a09f1aaafac"
 
 [[files]]
 file = "mods/krypton-fnp.pw.toml"
@@ -292,6 +310,11 @@ metafile = true
 [[files]]
 file = "mods/refurbished-furniture.pw.toml"
 hash = "208de52370a896983814bd3f69ed0e2b46ca52d99603656562f3890f96d151da"
+metafile = true
+
+[[files]]
+file = "mods/resource-pack-overrides.pw.toml"
+hash = "b8101dca20d054277d99e75b43dd8db44dea64a761d2ab69fdda9f6d59d9e6f1"
 metafile = true
 
 [[files]]
@@ -350,6 +373,21 @@ hash = "de999f6cc4c2f344e324b4f331fa9767844c31463c6e8066fcd67b613338ab8c"
 metafile = true
 
 [[files]]
+file = "mods/yuushya-modelling.pw.toml"
+hash = "404cce652d5b0b3a87366be4fc9f56f4df983969075872c131de060296f76a32"
+metafile = true
+
+[[files]]
 file = "mods/yuushya-townscape.pw.toml"
 hash = "e18eb2531a2d9422d91155507b90f287df1a5106a2dc1a95dc96b99c0fb7714c"
+metafile = true
+
+[[files]]
+file = "resourcepacks/yuushya-16x.pw.toml"
+hash = "ae09123c09b40942742eea5b3651f7d655acb1f3b314e36f0c85072ff1bd0a74"
+metafile = true
+
+[[files]]
+file = "resourcepacks/yuushya-foliage-addon.pw.toml"
+hash = "2d0aa5480e24d04dd1a48fe4d7fe43d181263bc8e1e3b575665639e157083b50"
 metafile = true

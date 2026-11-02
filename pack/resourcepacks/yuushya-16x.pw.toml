@@ -1,0 +1,13 @@
+name = "Yuushya 16x"
+filename = "[1.19-1.21] Yuushya Release 0.20.0.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/URJhe7Uz/versions/TuwbZAy3/%5B1.19-1.21%5D%20Yuushya%20Release%200.20.0.zip"
+hash-format = "sha512"
+hash = "c7c7d716a58bc0bb6709f0e0279dd010921d94d7f4351a853920fd9f530163ae03acf8dd07b21f595475358dd82f0c636d3588d29944c51a96d3ac10a0466f77"
+
+[update]
+[update.modrinth]
+mod-id = "URJhe7Uz"
+version = "TuwbZAy3"

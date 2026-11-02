@@ -1,0 +1,8 @@
+name = "ConnectedTexturesMod"
+filename = "CTM-1.21-1.2.1+3.jar"
+side = "client"
+
+[download]
+url = "https://edge.forgecdn.net/files/5587/515/CTM-1.21-1.2.1%2B3.jar"
+hash-format = "sha1"
+hash = "284232c08d3b999f05417761a3efba9b08ba20a7"

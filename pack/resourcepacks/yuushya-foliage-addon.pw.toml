@@ -1,0 +1,8 @@
+name = "Yuushya Foliage Addon"
+filename = "Yuushya Foliage Addon 1.3.zip"
+side = "client"
+
+[download]
+url = "https://edge.forgecdn.net/files/5084/380/Yuushya%20Foliage%20Addon%201.3.zip"
+hash-format = "sha1"
+hash = "fba9f4835fb08d24ff442ab4dc359066179fa202"
