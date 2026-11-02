@@ -30,7 +30,7 @@ hash = "b3d553461e00b92a05b8f99e9b0b7caaf848b76f0234e50a3c1fa6d53d28fdbe"
 
 [[files]]
 file = "config/eclipticseasons-common.toml"
-hash = "6e74f058c0c56c101c19f63b77bab431370f9be539c033b517a51b549b1aeb41"
+hash = "749d63c295a6bf750effde29c8247b424b380d76958ee1617cfe639634e7248c"
 
 [[files]]
 file = "config/farmersdelight-common.toml"
