@@ -303,6 +303,11 @@ hash = "a58d194107253147cb528cf1e7a7dde58e21ed63ad65202bbc5ff51d26443335"
 metafile = true
 
 [[files]]
+file = "mods/particle-rain.pw.toml"
+hash = "bb3302ebfd619afbda63f5365628856d4680c0a3fe86bfbdf1135d2a48acb190"
+metafile = true
+
+[[files]]
 file = "mods/refurbished-furniture.pw.toml"
 hash = "208de52370a896983814bd3f69ed0e2b46ca52d99603656562f3890f96d151da"
 metafile = true
