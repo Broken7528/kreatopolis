@@ -89,8 +89,12 @@ file = "config/supplementaries-common.toml"
 hash = "bca6ea061796cae15c46da2c01e9d81828e1449199bbb380f24ce6caf69f4379"
 
 [[files]]
+file = "config/voicechat/voicechat-client.properties"
+hash = "06bbf8adb848509660d4e65be32a1b033a54c69189818c2e1ebdb7bb13c73e38"
+
+[[files]]
 file = "config/voicechat/voicechat-server.properties"
-hash = "5dbfe909bd524afa8bd93651df07723f45e05e3a3bb01d1481b2bf7ef97a86a8"
+hash = "3ce8383f027ca5c1963dbb7f2d92a6bda5145e278533598b5f79b124b21ee16d"
 
 [[files]]
 file = "config/worldedit/worldedit.properties"
@@ -341,6 +345,11 @@ metafile = true
 [[files]]
 file = "mods/sodium.pw.toml"
 hash = "2a001cdb3d5ac4970d422914083c27380eba8ebd40dfd435754fe6566ba78beb"
+metafile = true
+
+[[files]]
+file = "mods/sound-physics-remastered.pw.toml"
+hash = "6727704e22c27be46fc08859f94dd0061cecf27ed2a7451c5bc1a0bdf50edbe5"
 metafile = true
 
 [[files]]
