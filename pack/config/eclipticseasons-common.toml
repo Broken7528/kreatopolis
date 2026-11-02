@@ -1,0 +1,63 @@
+[Season]
+	# Current seasonal simulation level. Available: ENVIRONMENT, ECOLOGY, AGRICULTURE, SURVIVAL, CUSTOM
+	SeasonalSimulationLevel = "CUSTOM"
+	# The duration of each Solar Term in Minecraft days (24 Solar Terms per year).
+	LastingDaysOfEachTerm = 1
+	# Adjust daylight duration based on the time of year (longer in Summer, shorter in Winter).
+	DynamicDaylightDuration = true
+
+[Weather]
+	# Weather changes in many ways with the solar terms (seasons).
+	UseSolarWeather = true
+	# Clear and rainy periods alternate, preventing endless rain or perpetual clear skies.
+	AlternatingWeatherModel = true
+	# Disable rain/snow in biomes with no natural precipitation (e.g., Deserts).
+	NoRainInDeserts = true
+	# Adjust the overall frequency of rain.
+	RainChanceMultiplier = 100
+	# Adjust the overall frequency of thunder.
+	ThunderChanceMultiplier = 100
+	# Automatically reset weather to clear after the player wakes up from a bed.
+	ClearAfterSleep = false
+	# Force initialize weather and snow states when the mod or world is first loaded.
+	ShouldInitWeather = false
+	# Force initialize snow states for extreme cold biomes when the mod or world is first loaded.
+	ShouldInitSnowForExtremeColdBiomes = true
+
+[Temperature]
+	# Allow accumulated snow layers and ice to melt as the temperature rises.
+	IceAndSnowMelt = true
+	# Allow natural snowfall and snow accumulation during cold periods.
+	# Disabled to prevent physical snow layer blocks from accumulating and breaking redstone, torches, crops, or player builds.
+	IceAndSnow = false
+	# If enabled, water in frozen biomes follows vanilla behavior and turns into ice.
+	WaterFreezesInFrozenBiomes = true
+	# Prevents physical snow from melting in naturally snowy biomes, even during hot seasons.
+	SnowKeepInSnowyBiomes = true
+	# Apply a 'Heatstroke' status effect if players stay in hot biomes during Summer noon.
+	HeatStroke = true
+
+[Crop]
+	# Restrict plant growth based on their compatible seasons.
+	# Disabled so player crops and automated farms are not hindered or broken.
+	EnableSeasonalCrop = false
+	# Restrict plant growth based on local environmental humidity.
+	EnableCropHumidityControl = false
+	# Bone meal may fail under unsuitable growing conditions.
+	RestrictBoneMeal = false
+
+[Snow]
+	# Snow overlays are visual atmospheric effects and distinct from physical vanilla snow layers.
+	SnowyWinter = true
+	# Apply visual snow overlays to trees during cold periods.
+	SnowyTree = true
+	# Prevent snow overlay from rendering near glowing blocks/light sources.
+	NotSnowyNearGlowingBlock = true
+	# Minimum light level to prevent visual snow overlay.
+	NotSnowyNearGlowingBlockLevel = 11
+	# Track snow based on exact world coordinates.
+	SnowInWorld = false
+	ForceSnowyChunkUpdate = true
+	ForceChunkUpdateOnlyWhenMelt = false
+	SnowCoverUnderBlocks = true
+	SnowStepMelt = false

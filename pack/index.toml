@@ -29,6 +29,10 @@ file = "config/cupboard.json"
 hash = "b3d553461e00b92a05b8f99e9b0b7caaf848b76f0234e50a3c1fa6d53d28fdbe"
 
 [[files]]
+file = "config/eclipticseasons-common.toml"
+hash = "6e74f058c0c56c101c19f63b77bab431370f9be539c033b517a51b549b1aeb41"
+
+[[files]]
 file = "config/farmersdelight-common.toml"
 hash = "124a9d6b09323a41b472e3894c55eeacddee6eaa63e2a0492b9dfda03055261d"
 
@@ -159,6 +163,11 @@ metafile = true
 [[files]]
 file = "mods/customizable-elytra.pw.toml"
 hash = "fb495270ef1ca9dbbb53b84d4d7306cef03a6334402a9b85a3f72ae4477f7bd6"
+metafile = true
+
+[[files]]
+file = "mods/ecliptic-seasons.pw.toml"
+hash = "b49ab0d46097d30505f37d68ae16550dea60a4919654d44c88dd88a7c437a491"
 metafile = true
 
 [[files]]
@@ -338,4 +347,9 @@ metafile = true
 [[files]]
 file = "mods/worldedit.pw.toml"
 hash = "de999f6cc4c2f344e324b4f331fa9767844c31463c6e8066fcd67b613338ab8c"
+metafile = true
+
+[[files]]
+file = "mods/yuushya-townscape.pw.toml"
+hash = "e18eb2531a2d9422d91155507b90f287df1a5106a2dc1a95dc96b99c0fb7714c"
 metafile = true

@@ -188,7 +188,7 @@ def determine_version_and_changes(
                                     new_mods.append(p_clean)
                                 elif "M" in status or "D" in status or "R" in status:
                                     changed_mods.append(p_clean)
-                            elif p_clean.startswith(("config/", "server/", "client/client.yml")):
+                            elif p_clean.startswith(("pack/config/", "config/", "server/", "client/client.yml")):
                                 config_changes.append(p_clean)
         except Exception:
             pass
