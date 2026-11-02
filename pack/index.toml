@@ -33,10 +33,6 @@ file = "config/cupboard.json"
 hash = "b3d553461e00b92a05b8f99e9b0b7caaf848b76f0234e50a3c1fa6d53d28fdbe"
 
 [[files]]
-file = "config/eclipticseasons-common.toml"
-hash = "0d2cc528fbaf2b9504c6dfe54ba5d0e6b98e22870dfb80ba2765395768980396"
-
-[[files]]
 file = "config/farmersdelight-common.toml"
 hash = "124a9d6b09323a41b472e3894c55eeacddee6eaa63e2a0492b9dfda03055261d"
 
@@ -172,11 +168,6 @@ metafile = true
 [[files]]
 file = "mods/customizable-elytra.pw.toml"
 hash = "fb495270ef1ca9dbbb53b84d4d7306cef03a6334402a9b85a3f72ae4477f7bd6"
-metafile = true
-
-[[files]]
-file = "mods/ecliptic-seasons.pw.toml"
-hash = "b49ab0d46097d30505f37d68ae16550dea60a4919654d44c88dd88a7c437a491"
 metafile = true
 
 [[files]]
