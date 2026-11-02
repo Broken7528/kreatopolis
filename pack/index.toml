@@ -9,6 +9,10 @@ file = "config/amendments-common.toml"
 hash = "103e0787b745271e47594c4ac376eb7595329f4fe2d74e9410a08b3e64d0491f"
 
 [[files]]
+file = "config/com.yuushya/client_config.json"
+hash = "1fd5a88d8bec4c70be1d9530a8f5c7ee7081121e53767758f7cb0fe1c1911d81"
+
+[[files]]
 file = "config/corn_delight-common.toml"
 hash = "fe6b577161d585acdd2650ce9b475e2ae2ff93fa0af13e322d019512eaea6125"
 
@@ -67,10 +71,6 @@ hash = "865138dc7f802d3b5a1a803ccf6cd551e058236b1b6d058ee3ffa7a87a9a9d71"
 [[files]]
 file = "config/refurbished_furniture.server.toml"
 hash = "ef126e70c8f36fe16a7cea36e206e0ec0be0862dabf2a66eb4de79a1771e41b8"
-
-[[files]]
-file = "config/resourcepackoverrides.json"
-hash = "945e3df74df11b4787275bb22129b360e5518a025d75027a057c3529495c36f0"
 
 [[files]]
 file = "config/sable-common.toml"
@@ -313,11 +313,6 @@ hash = "208de52370a896983814bd3f69ed0e2b46ca52d99603656562f3890f96d151da"
 metafile = true
 
 [[files]]
-file = "mods/resource-pack-overrides.pw.toml"
-hash = "b8101dca20d054277d99e75b43dd8db44dea64a761d2ab69fdda9f6d59d9e6f1"
-metafile = true
-
-[[files]]
 file = "mods/rhino.pw.toml"
 hash = "673de9cae75d2ad02796368939384de0d7238cf5c782975d71848a2187f753e7"
 metafile = true
@@ -380,14 +375,4 @@ metafile = true
 [[files]]
 file = "mods/yuushya-townscape.pw.toml"
 hash = "e18eb2531a2d9422d91155507b90f287df1a5106a2dc1a95dc96b99c0fb7714c"
-metafile = true
-
-[[files]]
-file = "resourcepacks/yuushya-16x.pw.toml"
-hash = "ae09123c09b40942742eea5b3651f7d655acb1f3b314e36f0c85072ff1bd0a74"
-metafile = true
-
-[[files]]
-file = "resourcepacks/yuushya-foliage-addon.pw.toml"
-hash = "2d0aa5480e24d04dd1a48fe4d7fe43d181263bc8e1e3b575665639e157083b50"
 metafile = true
