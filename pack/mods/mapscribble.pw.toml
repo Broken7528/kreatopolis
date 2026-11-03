@@ -1,0 +1,13 @@
+name = "MapScribble"
+filename = "mapscribble-0.2.0+1.21.1-neoforge.jar"
+side = "client"
+
+[download]
+hash-format = "sha1"
+hash = "abf363adff8612337beda7ef3632f0ae6bdc0502"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 9342152
+project-id = 1757645

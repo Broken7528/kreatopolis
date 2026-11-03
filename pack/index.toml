@@ -273,6 +273,11 @@ hash = "d51d9c17a1d4112b3ccf070217d68eb039a97efdde25277f074d653bf7edb3f1"
 metafile = true
 
 [[files]]
+file = "mods/mapscribble.pw.toml"
+hash = "2d4d2e9b104fcc7609fc62b8d0e62d0446c1f7763c1f364c4e902043b2ad62eb"
+metafile = true
+
+[[files]]
 file = "mods/modernfix.pw.toml"
 hash = "ff1ccb7623ec76d11a7423bf64fcc4381ffdec2c5c5bb1a8d408d1cb80b2e857"
 metafile = true

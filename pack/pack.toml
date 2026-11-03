@@ -1,12 +1,12 @@
 name = "Kreatopolis"
 author = "Kreatopolis"
-version = "1.6.0"
+version = "1.7.0"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "5ac0f1326eb4369b9301598472858a6094249f27268e23c0e5ebc9c620942bb0"
+hash = "26436493caa930d71f793c8a28626db3343e73018995d69aa2be18b9da6c014c"
 
 [versions]
 minecraft = "1.21.1"
