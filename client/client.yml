@@ -9,7 +9,7 @@ memory:            # MB
   max: 6144
 
 # Extra JVM flags for the game (leave empty for launcher defaults).
-java_args: ""
+java_args: "-Dneoforge.readTimeout=360 -Dfml.readTimeout=360"
 
 # PolyMC component UID used for NeoForge.
 #   PolyMC        -> net.neoforged.neoforge

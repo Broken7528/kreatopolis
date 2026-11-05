@@ -23,4 +23,5 @@
 -XX:MaxTenuringThreshold=1
 -Dusing.aikars.flags=https://mcflags.emc.gs
 -Daikars.new.flags=true
--Dneoforge.readTimeout=120
+-Dneoforge.readTimeout=360
+-Dfml.readTimeout=360
