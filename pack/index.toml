@@ -253,11 +253,6 @@ file = "mods/kreatopolis-voicechat-fix-1.0.0.jar"
 hash = "caea88fb827e2b585c152f88588a86b78bedd3dc5d70b0c7ec121a09f1aaafac"
 
 [[files]]
-file = "mods/krypton-fnp.pw.toml"
-hash = "5a96006110f4cdd98460a994373153909a5f0bf6cb68c5ac3a64adbda86eb302"
-metafile = true
-
-[[files]]
 file = "mods/ksyxis.pw.toml"
 hash = "e98be0d8ab66be0359550a512601d5012d12ed3cf79eeff165cf7b71a9d27aa8"
 metafile = true
