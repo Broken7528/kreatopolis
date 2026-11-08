@@ -1,6 +1,6 @@
 name = "Kreatopolis"
 author = "Kreatopolis"
-version = "1.7.3"
+version = "1.7.4"
 pack-format = "packwiz:1.1.0"
 
 [index]

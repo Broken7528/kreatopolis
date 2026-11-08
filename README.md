@@ -56,14 +56,14 @@ kreatopolis/
 
 Configured in [`server/server.properties`](server/server.properties) and [`server/overrides/world/datapacks/kreatopolis_settings`](server/overrides/world/datapacks/kreatopolis_settings):
 
-* **Minecraft / Loader**: `1.21.1` / NeoForge `21.1.262`
+* **Minecraft / Loader**: `1.21.1` / NeoForge `21.1.265`
 * **Gamemode**: `creative` (`force-gamemode=true`)
 * **Difficulty**: `easy`
 * **World Type**: `minecraft:large_biomes`
 * **World Seed**: `9006026852704370239`
 * **Respawn Radius**: `0` (enforced via built-in datapack `gamerule spawnRadius 0` on world load + `spawn-protection=0`)
-* **Mob Spawning**: Disabled (`spawn-monsters=false`, `spawn-animals=false`, `spawn-npcs=false`, plus `gamerule doMobSpawning false`)
-* **View & Simulation Distance**: `25` chunks (`view-distance=25`, `simulation-distance=25`)
+* **Mob Spawning**: Enabled (`spawn-monsters=true`, `spawn-animals=true`, `spawn-npcs=true`)
+* **View & Simulation Distance**: View distance 25 chunks (`view-distance=25`), entity loading/simulation distance 20 chunks (`simulation-distance=20`)
 
 ### Whitelist & Operator Levels ([`server/players.yml`](server/players.yml))
 

@@ -63,8 +63,11 @@ public class KreatopolisBootstrap {
             }
         }
 
-        if (isClient && packUrl != null) {
-            checkAndSyncPolyMcLoader(packFolder, packUrl);
+        if (isClient) {
+            checkAndSetDefaultOptions(packFolder);
+            if (packUrl != null) {
+                checkAndSyncPolyMcLoader(packFolder, packUrl);
+            }
         }
 
         String[] childArgs = args;
@@ -80,6 +83,43 @@ public class KreatopolisBootstrap {
         }
 
         Main.main(childArgs);
+    }
+
+    private static void checkAndSetDefaultOptions(Path packFolder) {
+        try {
+            Path optionsTxt = packFolder.resolve("options.txt");
+            if (!Files.exists(optionsTxt)) {
+                List<String> lines = new ArrayList<String>();
+                lines.add("simulationDistance:12");
+                lines.add("entityDistanceScaling:1.0");
+                lines.add("renderDistance:12");
+                Files.write(optionsTxt, lines, StandardCharsets.UTF_8);
+            } else {
+                List<String> lines = Files.readAllLines(optionsTxt, StandardCharsets.UTF_8);
+                boolean hasSimDist = false;
+                boolean hasEntityDist = false;
+                for (String l : lines) {
+                    if (l.startsWith("simulationDistance:")) {
+                        hasSimDist = true;
+                    } else if (l.startsWith("entityDistanceScaling:")) {
+                        hasEntityDist = true;
+                    }
+                }
+                boolean modified = false;
+                if (!hasSimDist) {
+                    lines.add("simulationDistance:12");
+                    modified = true;
+                }
+                if (!hasEntityDist) {
+                    lines.add("entityDistanceScaling:1.0");
+                    modified = true;
+                }
+                if (modified) {
+                    Files.write(optionsTxt, lines, StandardCharsets.UTF_8);
+                }
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     private static void checkAndSyncPolyMcLoader(Path packFolder, String packUrl) {

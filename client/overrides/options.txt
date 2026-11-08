@@ -1,0 +1,3 @@
+simulationDistance:12
+renderDistance:12
+entityDistanceScaling:1.0
