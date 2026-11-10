@@ -1,4 +1,4 @@
-# Kreatopolis — Minecraft 1.21.1 (NeoForge 21.1.262)
+# Kreatopolis — Minecraft 1.21.1 (NeoForge 21.1.265)
 
 Version-controlled modpack and server configuration repository for **Kreatopolis**. Pushing changes to `main` triggers GitHub Actions to build separate **Client (PolyMC instance)** and **Server** modpack zips and publish them to a rolling `latest` release with permanent URLs alongside an immutable versioned release.
 
@@ -16,7 +16,7 @@ Once this repository is pushed to GitHub (`https://github.com/Broken7528/kreatop
 
 ### How Client Auto-Sync Works
 1. A player imports `Kreatopolis-client.zip` into PolyMC **once** using the permanent release link above.
-2. The instance contains `mmc-pack.json` (`net.minecraft` `1.21.1` + `net.neoforged.neoforge` `21.1.262`), `patches/net.neoforged.neoforge.json`, `instance.cfg`, and `.minecraft/packwiz-installer-bootstrap.jar`.
+2. The instance contains `mmc-pack.json` (`net.minecraft` `1.21.1` + `net.neoforged.neoforge` `21.1.265`), `patches/net.neoforged.neoforge.json`, `instance.cfg`, and `.minecraft/packwiz-installer-bootstrap.jar`.
 3. Every time the player clicks **Launch**, PolyMC's `PreLaunchCommand` runs `packwiz-installer-bootstrap.jar -g -s client` against the `main` branch's `pack/pack.toml`, automatically downloading new/updated client & shared mods and pruning removed ones—without requiring players to have `packwiz` installed or ever re-import the zip.
 
 ---

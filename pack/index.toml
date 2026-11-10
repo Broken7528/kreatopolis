@@ -130,6 +130,11 @@ hash = "b77926df9a06028f058f33d85837ca623eb6fef9c4b78d9b39b428a1bf1a67b5"
 metafile = true
 
 [[files]]
+file = "mods/axiom.pw.toml"
+hash = "d583458696a2d7917ecbac06f0455353a95f2d1a38ece9b71f20ed8ff556949d"
+metafile = true
+
+[[files]]
 file = "mods/c2me-neoforge.pw.toml"
 hash = "3c7de73ca8cb2e2eddda71d98cc07d29af70d5f8832fb572e2c1b8d2a4ebc720"
 metafile = true
@@ -142,6 +147,16 @@ metafile = true
 [[files]]
 file = "mods/clumps.pw.toml"
 hash = "c7f15ebcab95f04c71940715f09ced4caad2775a91ef34389431f91bc1c7be71"
+metafile = true
+
+[[files]]
+file = "mods/connector-extras.pw.toml"
+hash = "52e2cb54ee2933bf00e9b7886f47938a2dce1bf998293be2b38552083ffa5f9a"
+metafile = true
+
+[[files]]
+file = "mods/connector.pw.toml"
+hash = "a38d72ca403e9064338be6e0cf69532768b0c1aba8f88703a8ce74c2734da522"
 metafile = true
 
 [[files]]
@@ -191,6 +206,11 @@ hash = "82ccccfb160de46f0ce38abd918a58d24c0ef840d7020ec44b5aa857746ac22d"
 [[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "ead771197ca804c104207b6507e53bd62eed2e060180958c35d3f9b19623fd17"
+metafile = true
+
+[[files]]
+file = "mods/forgified-fabric-api.pw.toml"
+hash = "981e52e1c4a97465921342f556cced335c6c75cdb050e9fc528d52cf4ff88b79"
 metafile = true
 
 [[files]]
