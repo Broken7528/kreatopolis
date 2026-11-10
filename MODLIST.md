@@ -1,4 +1,4 @@
-# Kreatopolis 1.8.1 mod list
+# Kreatopolis 1.9.1 mod list
 
 Minecraft **1.21.1** / NeoForge **21.1.265** - 62 mods (39 both sides, 7 client-only, 16 server-only)
 
