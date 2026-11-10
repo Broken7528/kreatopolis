@@ -269,6 +269,10 @@ hash = "712a69b3569a8055979de6eea262068535fe182dffb3833e53e5833e9cbf9766"
 metafile = true
 
 [[files]]
+file = "mods/kreatopolis-axiom-fix-1.0.0.jar"
+hash = "8f16b3bb28bdd324827000fe24fdbfc5d88bd29ab161425ef1258bc5f374c69e"
+
+[[files]]
 file = "mods/kreatopolis-voicechat-fix-1.0.0.jar"
 hash = "caea88fb827e2b585c152f88588a86b78bedd3dc5d70b0c7ec121a09f1aaafac"
 
